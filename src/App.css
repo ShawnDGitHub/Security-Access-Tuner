@@ -7,7 +7,7 @@
   --sys-border-xs: 2px;
 
   --sys-color-state-focus: #12121244;
-  --sys-color-state-hover: #fb9e9e;
+  --sys-color-state-hover: #2a2a2a;
   /* font */
   /* --sys-font- */
   --sys-font-size-l: 36px;
@@ -16,9 +16,18 @@
   --sys-font-weight-m: 500;
   --sys-font-weight-b: 800;
 }
+#root {
+  display: flex;
+  justify-content: center;
+  background-color: #121212;
+}
 .none-select { user-select: none; }
 
 .Device-border {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  max-width: 600px;
   height: 100vh;
   box-sizing: border-box;
   margin: 0;
@@ -27,9 +36,24 @@
   display: flex;
   justify-content: center;
 }
+.Signal-indicator {
+  position: absolute;
+  z-index: 0;
+  top: -260px;
+  left: 50%;
+  transform-origin: bottom;
+  transform: 
+    translateX(-50%)
+    rotate(0deg);
+  width: 80px;
+  height: calc(50vh + 260px);
+  background-color: var(--sys-color-indicate);
+  animation: rotate 10s linear infinite;
+}
+
 .Accessor-container {
   position: relative;
-  z-index: 0;
+  z-index: 5;
   background-color: var(--sys-color-container);
   height: 100%;
   width: 100%;
@@ -43,11 +67,10 @@
 }
 .Accessor-state-hover.show {
   height: 100%;
-  z-index: 5;
+  z-index: 100;
   opacity: 1;
   transition: 
-    height .1s ease-in,
-    opacity .1s ease-in;
+    height .1s ease-in-out;
 }
 .Accessor-state-hover {
   position: absolute;
@@ -74,6 +97,10 @@
   font-size: var(--sys-font-size-m);
   color: var(--sys-color-state-hover);
 }
+.Accessor-state-title.Not-accepted { 
+  font-size: var(--sys-font-size-m);
+  color: #ff1414;
+}
 
 .group { width: 100%; }
 .Callback-code {
@@ -94,7 +121,9 @@
   width: 100%;
   height: var(--sys-border-l);
   background-color: var(--sys-color-indicate);
-  transition: width 1s ease-in;
+  transition: 
+    width 1s ease-in,
+    background-color .2s ease-in;
 }
 .Callback-code-title {
   font-size: var(--sys-font-size-m);
@@ -189,5 +218,14 @@
     --sys-color-on-container: #121212;
   }
 }
+/* animation */
+@keyframes rotate {
+  from {   
+    transform: rotate(0deg); 
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 
 /* other setting */
 * { box-sizing: border-box; }

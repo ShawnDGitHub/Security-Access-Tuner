@@ -1,12 +1,12 @@
+import { useEffect, useState, useRef } from 'react'
 import Letter from './components/Letter';
 import Keyboard from './components/Keyboard';
 import StateHover from './components/StateHover';
 import './App.css';
-import { useEffect, useState, useRef } from 'react'
 
 function Device () {
   const [verifyState, setVerifyState] = useState(false)
-  const limitTime = 10 // set how many second for timer, within seconds
+  const limitTime = 5 // set how many second for timer, within seconds
   const serverCode = '1024' // set your code
   const passwordBlockRef = useRef(null) // keyboard reference
   const passwordBlocks = '12345678<09'// number keyboard key
@@ -16,6 +16,7 @@ function Device () {
   const [second, setSecond] = useState(limitTime)
   const [millisecond, setMillisecond] = useState(60)
   const [hoverState, setHoverState] = useState(false)
+  const [timeoutFlag, setTimeoutFlag] = useState(false)
   // StateHover component title
   const [hoverText, setHoverText] = useState('Code accepted')
 
@@ -27,9 +28,18 @@ function Device () {
         setHoverText('Timeout')
         // change the :root element --sys-color-state-hover in css
         document.documentElement.style
-          .setProperty('--sys-color-state-hover', '#c7c6c6');
+          .setProperty('--sys-color-state-hover', '#2a2a2a');
+        setTimeoutFlag(true)
         setHoverState(true) // let StateHover component show
-        setTimeout(() => setHoverState(false), 1000) // display StateHover
+        setVerifyState(true)
+        document.documentElement.style
+          .setProperty('--sys-color-indicate', 'transparent');
+        setTimeout(() => {
+          document.documentElement.style
+            .setProperty('--sys-color-indicate', '#02c820');
+          setHoverState(false)
+          setTimeoutFlag(false)
+        }, 1000) // display StateHover
         setCode('____') // clear code display
         setCodePointer(0) // clear next input palce to start
         setCurrentKey('10') // display the highlight key
@@ -47,18 +57,24 @@ function Device () {
       else {
         setHoverText('Code not accepted')
         document.documentElement.style
-          .setProperty('--sys-color-state-hover', '#fb9e9e');
+          .setProperty('--sys-color-state-hover', 'rgb(196, 196, 196)');
         setSecond(limitTime)
         setMillisecond(60)
       }
       setCurrentKey('10')
       setHoverState(true)
       setTimeout(() => setHoverState(false), 1000)
+      document.documentElement.style
+        .setProperty('--sys-color-indicate', '#02c820');
     }
     // do not place other setTimeout or setInterval in useEffect,
     // because every 10 millisecond the whole useEffect will execute
     function setTimer () {
       setTimeout(() => {
+        if ((second / limitTime) < 0.4) {
+          document.documentElement.style
+            .setProperty('--sys-color-indicate', '#e4c80c');
+        }
         if (millisecond === 1) {
           if (second === 0) {
             checkCode(false) // timeout
@@ -70,7 +86,7 @@ function Device () {
         else setMillisecond(millisecond - 1)
       }, 10)
     }
-    // make keyboard event avaliable
+    // make keyboard event available
     passwordBlockRef.current.focus()
     // if not verify not passed, continue the countdown
     if (!verifyState) setTimer()
@@ -127,11 +143,13 @@ function Device () {
   return (
     <div className="Device-border">
       {/* TODO:should have indicator outside */}
+      <div className='Signal-indicator'></div>
       <div className="Accessor-container none-select">
         <StateHover
           hoverState={hoverState}
           hoverText={hoverText}
           hoverCaption='System information'
+          timeoutFlag={timeoutFlag}
         />
 
         <div className="group">

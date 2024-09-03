@@ -1,0 +1,193 @@
+:root {
+  /* border */
+  /* --sys-border- */
+  --sys-border-l: 16px;
+  --sys-border-m: 8px;
+  --sys-border-s: 4px;
+  --sys-border-xs: 2px;
+
+  --sys-color-state-focus: #12121244;
+  --sys-color-state-hover: #fb9e9e;
+  /* font */
+  /* --sys-font- */
+  --sys-font-size-l: 36px;
+  --sys-font-size-m: 24px;
+
+  --sys-font-weight-m: 500;
+  --sys-font-weight-b: 800;
+}
+.none-select { user-select: none; }
+
+.Device-border {
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--sys-border-l);
+  background-color: rgb(32, 32, 32);
+  display: flex;
+  justify-content: center;
+}
+.Accessor-container {
+  position: relative;
+  z-index: 0;
+  background-color: var(--sys-color-container);
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
+  padding: var(--sys-border-m);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+}
+.Accessor-state-hover.show {
+  height: 100%;
+  z-index: 5;
+  opacity: 1;
+  transition: 
+    height .1s ease-in,
+    opacity .1s ease-in;
+}
+.Accessor-state-hover {
+  position: absolute;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70%;
+  background-color: var(--sys-color-state-hover);
+  opacity: 0;
+  transition: height .1s ease-in;
+  color: var(--sys-color-on-container);
+}
+.Accessor-state-container {
+  width: 80%;
+  max-width: 500px;
+  height: 90px;
+  background-color: var(--sys-color-container);
+  border: var(--sys-border-m) solid #f9c314;
+  padding: 8px;
+}
+.Accessor-state-title { 
+  font-size: var(--sys-font-size-m);
+  color: var(--sys-color-state-hover);
+}
+
+.group { width: 100%; }
+.Callback-code {
+  position: relative;
+  width: 100%;
+  height: 122px;
+  border: var(--sys-border-m) solid var(--sys-color-border);
+  border-top: none;
+}
+.Progress-bar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: var(--sys-border-l);
+  background-color: var(--sys-color-container);
+}
+.Progress-bar-indicator {
+  width: 100%;
+  height: var(--sys-border-l);
+  background-color: var(--sys-color-indicate);
+  transition: width 1s ease-in;
+}
+.Callback-code-title {
+  font-size: var(--sys-font-size-m);
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  background-color: var(--sys-color-border);
+  color: var(--sys-color-container);
+}
+.Callback-code-content {
+  height: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Single-code {
+  font-size: var(--sys-font-size-l);
+  font-weight: var(--sys-font-weight-m);
+  color: var(--sys-color-on-container);
+  width: 82px;
+  height: 82px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Timer {
+  text-align: center;
+  width: 100%;
+  font-size: var(--sys-font-size-m);
+  color: var(--sys-color-border);
+}
+
+.Password-area {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 180px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.Password-area:focus-visible {
+  outline: 8px solid var(--sys-color-state-focus);
+  background-color: var(--sys-color-state-focus);
+  transition: 
+    outline .1s ease-in,
+    background-color .1s ease-in;
+}
+.Password-block.Zero {
+  grid-column: 2 / 4;
+}
+.Password-block.Nine {
+  grid-column: 4 / 5;
+}
+.Password-block {
+  background-color: var(--sys-color-container);
+  z-index: 5;
+  border: var(--sys-border-xs) solid var(--sys-color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--sys-font-size-m);
+  font-weight: var(--sys-font-weight-m);
+  color: var(--sys-color-on-container);
+}
+.Password-block:active { 
+  outline: var(--sys-border-s) solid var(--sys-color-border);
+}
+.Password-block.active { outline: var(--sys-border-s) solid var(--sys-color-border); }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* color */
+    /* --sys-color- */
+    /* dark */
+    --sys-color-container: #003507;
+    --sys-color-border: #d2f4d6;
+    --sys-color-indicate: #02c820;
+
+    --sys-color-on-container: #ffffff;
+  }
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    /* color */
+    /* --sys-color- */
+    /* light */
+    --sys-color-container: #d2f4d6;
+    --sys-color-border: #121212;
+    --sys-color-indicate: #02c820;
+
+    --sys-color-on-container: #121212;
+  }
+}
+/* other setting */
+* { box-sizing: border-box; }

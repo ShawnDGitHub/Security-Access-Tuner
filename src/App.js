@@ -6,7 +6,7 @@ import './App.css';
 
 function Device () {
   const [verifyState, setVerifyState] = useState(false)
-  const limitTime = 5 // set how many second for timer, within seconds
+  const limitTime = 5 // set how many seconds for timer, within seconds
   const serverCode = '1024' // set your code
   const passwordBlockRef = useRef(null) // keyboard reference
   const passwordBlocks = '12345678<09'// number keyboard key
@@ -21,6 +21,7 @@ function Device () {
   const [hoverText, setHoverText] = useState('Code accepted')
 
   useEffect(() => {
+      let timerId = null
     // state: boolean
     // false: timeout, true: can check code now
     function checkCode (state) {
@@ -41,7 +42,7 @@ function Device () {
           setTimeoutFlag(false)
         }, 1000) // display StateHover
         setCode('____') // clear code display
-        setCodePointer(0) // clear next input palce to start
+        setCodePointer(0) // clear next input place to start
         setCurrentKey('10') // display the highlight key
         return 
       }
@@ -70,7 +71,8 @@ function Device () {
     // do not place other setTimeout or setInterval in useEffect,
     // because every 10 millisecond the whole useEffect will execute
     function setTimer () {
-      setTimeout(() => {
+      if (timerId) clearTimeout(timerId)
+      timerId = setTimeout(() => {
         if ((second / limitTime) < 0.4) {
           document.documentElement.style
             .setProperty('--sys-color-indicate', '#e4c80c');
@@ -88,7 +90,7 @@ function Device () {
     }
     // make keyboard event available
     passwordBlockRef.current.focus()
-    // if not verify not passed, continue the countdown
+    // if verifying did not passed, continue the countdown
     if (!verifyState) setTimer()
     else setCurrentKey('10') // else should clear keyboard highlight
 
@@ -118,7 +120,7 @@ function Device () {
       setCodePointer(codePointer + 1) // move input to next place   
     } else return
   }
-  function deletPassword () {
+  function deletePassword () {
     if (codePointer === 0) return
     const currentCodeArr = code.split('')
     currentCodeArr[codePointer - 1] = '_'
@@ -129,12 +131,12 @@ function Device () {
 
   const handlePasswordBlockClick = ({ target }) => {
     setVerifyState(false) // display the keyboard highlight
-    if (target.dataset.tag === '<') deletPassword()
+    if (target.dataset.tag === '<') deletePassword()
     else inputPassword(target.dataset.tag)
   }
   const handlePasswordBlockKeyboard = ({ key }) => {
     setVerifyState(false)
-    if (key === 'Backspace') deletPassword()
+    if (key === 'Backspace') deletePassword()
     else inputPassword(key)
     setCurrentKey(key)
     setTimeout(() => setCurrentKey('10'), 300)

@@ -6,6 +6,6 @@ Security Access Tuner in game **Alien: Isolation** made with React, this version
 
 ## screenshot
 
-![screenshot](D:\code\Project\GitConnected\security_access_tuner\screenshot.png)
+![screenshot](https://github.com/ShawnDGitHub/Security-Access-Tuner/blob/main/screenshot.png)
 
 From left to right: white theme, dark theme, reset screen, verify screen.

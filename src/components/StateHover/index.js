@@ -1,8 +1,12 @@
 import classNames from 'classnames'
 import Loading from '../Loading'
 
-export default function StateHover ({ hoverState, hoverText,
-  hoverCaption, timeoutFlag = false }) {
+export default function StateHover ({
+  state: hoverState,
+  text: hoverText,
+  timeout: timeoutFlag,
+  hoverCaption
+}) {
 
   return (
     <div className={classNames(
@@ -11,7 +15,7 @@ export default function StateHover ({ hoverState, hoverText,
     )}>
       {
         timeoutFlag
-        ? <Loading loadingText="Reseting..." />
+        ? <Loading loadingText="Resetting..." />
           : (
             <div className='Accessor-state-container'>
               <div className={

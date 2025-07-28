@@ -48,7 +48,7 @@ function Device () {
           text: action.text,
           tk_state_hover: action.tk_state_hover,
           tk_indicator: action.tk_indicator,
-          timeoutFlag: false
+          timeoutFlag: action?.timeoutFlag || false
         }
       default:
         return state
@@ -94,18 +94,18 @@ function Device () {
   }
   function inputPassword (input) {
     if (codePointer === 4) return // Verifying, do not  accept input
-    const key = parseInt(input) // transform string to int
-    const inputCode = code.split('') // divide string letters to array
+    const key = parseInt(input) // Transform string to int
+    const inputCode = code.split('') // Divide string letters to array
 
     if (!isNaN(key)) { // is number
       inputCode[codePointer] = input
       const newCode = inputCode.join('')
       setCode(newCode)
 
-      if (codePointer === 3) { // start verifying
+      if (codePointer === 3) { // Start verifying
         checkCode(newCode)
 
-        setTimeout(() => { // reset
+        setTimeout(() => { // Reset
           setCode("____")
           setCodePointer(0)
         }, 700)
@@ -123,7 +123,7 @@ function Device () {
     setCode(newCode)
   }
   const handlePasswordBlockClick = ({ target }) => {
-    // when countdown stopped, this can trigger verification
+    // When countdown stopped, this can trigger verification
     if (verifyState) setVerifyState(false)
     if (target.dataset.tag === '<') deletePassword()
     else inputPassword(target.dataset.tag)
@@ -147,10 +147,10 @@ function Device () {
         timeoutFlag: true
       })
 
-      setCode('____') // clear code display
-      setCodePointer(0) // reset code pointer
+      setCode('____') // Clear code display
+      setCodePointer(0) // Reset code pointer
 
-      setVerifyState(true) // avoid keeping verifying
+      setVerifyState(true) // Avoid keeping verifying
 
       setTimeout(() => {
         dispatch({
